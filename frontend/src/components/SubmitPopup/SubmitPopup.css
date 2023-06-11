@@ -1,0 +1,149 @@
+.submitpopup {
+  position: fixed;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.submitpopup_opened {
+  visibility: visible;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.submitpopup__conteiner {
+  position: relative;
+  border-radius: 6px;
+  background-color: #fff;
+  min-height: 200px;
+  width: 550px;
+  margin: 0 20px;
+  padding: 32px 48px 40px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  cursor: default;
+}
+
+.submitpopup__close-button {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  border: none;
+  cursor: pointer;
+  background: none;
+  outline: none;
+}
+
+.submitpopup__close-button:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  border: 2px solid #486377;
+  top: -1px;
+  left: 6.5px;
+  background-color: #486377;
+  transform: rotate(45deg);
+  border-radius: 1px;
+}
+
+.submitpopup__close-button:after {
+  position: absolute;
+  content: "";
+  height: 15px;
+  border: 2px solid #486377;
+  top: -1px;
+  left: 6.5px;
+  background-color: #486377;
+  transform: rotate(-45deg);
+  border-radius: 1px;
+}
+
+.submitpopup__title {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  font-style: normal;
+  text-align: center;
+  color: #486377;
+}
+
+.submitpopup__text {
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.submitpopup__buttons {
+    display: flex;
+    margin-top: auto;
+}
+
+.submitpopup__cancel-button {
+  height: 39px;
+  border: none;
+  cursor: pointer;
+  background: none;
+  outline: none;
+  border: 1px solid #2991dc;
+  border-radius: 4px;
+  color: #2991dc;
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+  width: 33%;
+}
+
+.submitpopup__delete-button {
+    height: 39px;
+    border: none;
+    cursor: pointer;
+    background: none;
+    outline: none;
+    background-color: #2991dc;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    width: calc(67% - 20px);
+    margin-left: 20px;
+}
+
+@media (max-width: 440px) {
+    .submitpopup__cancel-button {
+        width: 100px;
+    }
+    
+    .submitpopup__delete-button {
+       width: 100px;
+       margin: 0;
+       margin-top: 10px;
+    }
+    
+    .submitpopup__buttons {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 28px;
+    }
+}

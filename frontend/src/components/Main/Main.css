@@ -1,0 +1,14 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 64px 0;
+}
+
+.main__title {
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 600;
+  font-style: normal;
+  text-align: center;
+}

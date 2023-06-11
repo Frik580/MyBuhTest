@@ -1,0 +1,8 @@
+.cardlist {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 578px));
+  justify-content: center;
+  gap: 30px 24px;
+  list-style-type: none;
+  padding: 40px 20px;
+}

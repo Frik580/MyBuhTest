@@ -1,0 +1,41 @@
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* .checkbox:nth-of-type(1) {
+  margin-top: 28px;
+} */
+
+.checkbox:last-of-type {
+  margin-bottom: 0;
+}
+
+.checkbox__text {
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 400;
+  font-style: normal;
+  margin-left: 8px;
+  color: #808080;
+}
+
+.checkbox__text_active {
+  color: #005DA1;
+}
+
+.checkbox__tumb {
+  background: none;
+  border: none;
+  outline: none;
+  background-image: url(../../../images/ion_radio-button-off.svg);
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  margin-left: 2px;
+}
+
+.checkbox__tumb_active {
+  background-image: url(../../../images/ion_radio-button-on.svg);
+}
