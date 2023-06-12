@@ -41,7 +41,6 @@ function App() {
   };
 
   const handleCardChange = (card) => {
-    console.log(companies.indexOf(card[1]));
     const index = companies.indexOf(card[1]);
     companies[index] = card[0];
     setIsEditPopupOpen(false);

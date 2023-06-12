@@ -94,7 +94,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
   useEffect(() => {
     ownershipsForm && renderSelect();
     // console.log(ownershipId);
-  }, [isOpen, ownershipId]);
+  }, [isOpen, ownershipId, ownershipsForm]);
 
   return (
     <div
@@ -155,7 +155,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
               text="Физические лица"
             />
 
-            {isValid && (
+            {ownershipId && (
               <>
                 {ownershipId !== 20 && (
                   <>
@@ -192,7 +192,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
               name="tin"
               className="popup-form__item"
               minLength="2"
-              maxLength="20"
+              maxLength="12"
               required
             />
             {/* <span id="about-error" className="error" /> */}
@@ -214,7 +214,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
               name="name"
               className="popup-form__item"
               minLength="2"
-              maxLength="40"
+              maxLength="20"
               required
             />
             {/* <span id="user-name-error" className="error" /> */}
