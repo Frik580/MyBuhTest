@@ -24,9 +24,53 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
     );
     ownership && setOwnershipsForm(ownership[0]);
     ownership[0] && setOwnershipId(ownership[0].id);
-    ownership[0] && console.log(ownership[0].id);
+    // ownership[0] && console.log(ownership[0].id);
   }, [card, ownerships, isOpen]);
 
+  useEffect(() => {
+    setState({
+      name: card.company_name,
+      tin: card.company_tin,
+      id: card.ownership_id,
+    });
+    inputRef.current.focus();
+  }, [card, isOpen]);
+
+  // Проверка валидности (isValid)
+  useEffect(() => {
+    (card.company_name === state.name &&
+      card.company_tin === state.tin &&
+      card.ownership_id === ownershipId) ||
+    !ownershipId
+      ? setIsValid(false)
+      : setIsValid(true);
+  }, [isOpen, card, state, ownershipId]);
+
+  // Слушатель Esc на закрытие попапа
+  useEffect(() => {
+    const handleEscClose = (e) => {
+      e.key === "Escape" && onClose();
+    };
+    document.addEventListener("keyup", handleEscClose);
+    return () => {
+      document.removeEventListener("keyup", handleEscClose);
+    };
+  }, [onClose]);
+
+  const handleInputChange = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onChangeCard([{
+      company_name: state.name,
+      company_tin: state.tin,
+      ownership_id: ownershipId,
+    }, card]);
+  };
+
+  // отрисовка чекбоксов
   const cleanoff = () => {
     setToo(false);
     setIp(false);
@@ -44,52 +88,13 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
       setJur(true);
     ownershipId >= 15 && ownershipId <= 19 && setChp(true);
     ownershipId === 20 && setFiz(true);
-
     ownershipId !== 1 && ownershipId !== 14 && setOther(true);
   };
 
   useEffect(() => {
     ownershipsForm && renderSelect();
-    console.log(ownershipId);
-    ownershipId ? setIsValid(true) : setIsValid(false);
+    // console.log(ownershipId);
   }, [isOpen, ownershipId]);
-
-  useEffect(() => {
-    setState({
-      name: card.company_name,
-      tin: card.company_tin,
-      id: ownershipId,
-    });
-    inputRef.current.focus();
-  }, [
-    card.company_name,
-    card.company_tin,
-    isOpen,
-    ownershipId,
-  ]);
-
-  useEffect(() => {
-    const handleEscClose = (e) => {
-      e.key === "Escape" && onClose();
-    };
-    document.addEventListener("keyup", handleEscClose);
-    return () => {
-      document.removeEventListener("keyup", handleEscClose);
-    };
-  }, [onClose]);
-
-  const handleInputChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onChangeCard({
-      company_name: state.name,
-      company_tin: state.tin,
-      ownership_id: state.id,
-    });
-  };
 
   return (
     <div
@@ -133,7 +138,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
         </div>
 
         {other && (
-          <p>
+          <>
             <FilterCheckbox
               isActive={jur}
               onChange={() => setOwnershipId(2)}
@@ -166,7 +171,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
                 )}
               </>
             )}
-          </p>
+          </>
         )}
 
         <form
@@ -217,9 +222,11 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
 
           <button
             disabled={!isValid}
-            className={`popup-form__button hover-button ${
-              !isValid && "popup-form__button_disabled"
-            }`}
+            className={
+              !isValid
+                ? "popup-form__button_disabled"
+                : "popup-form__button hover-button"
+            }
             type="submit"
             name="button"
           >

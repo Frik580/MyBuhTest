@@ -29,38 +29,40 @@ function Grid({ id, ownerships, onChangeId }) {
   }, [id, ownerships]);
 
   return (
-    <div
-      className="grid"
-      style={{
-        gridTemplateRows: isGridOpen && `auto 156px`,
-      }}
-    >
-      <div className="grid__top">
-        <p className="grid__text">{child.full}</p>
-        <div className="grid__navigation">
-          <button
-            onClick={() => setIsGridOpen(!isGridOpen)}
-            className={`hover ${
-              isGridOpen ? "grid__close-button" : "grid__open-button"
-            }`}
-            type="button"
-          />
+    <div className="grid-conteiner">
+      <div
+        className="grid"
+        style={{
+          gridTemplateRows: isGridOpen && `auto 160px`,
+        }}
+      >
+        <div className="grid__top">
+          <p className="grid__title">{child.full}</p>
+          <div className="grid__navigation">
+            <button
+              onClick={() => setIsGridOpen(!isGridOpen)}
+              className={`hover ${
+                isGridOpen ? "grid__close-button" : "grid__open-button"
+              }`}
+              type="button"
+            />
+          </div>
         </div>
-      </div>
-      <ul className={isGridOpen ? "grid__bottom_active" : "grid__bottom"}>
-        <li className="grid__text" onClick={() => onChangeId(parent.id)}>
-          {parent.full}
-        </li>
-        {childs.map((item) => (
-          <li
-            key={item.id}
-            onClick={() => onChangeId(item.id)}
-            className="grid__text"
-          >
-            {item.full}
+        <ul className={isGridOpen ? "grid__bottom_active" : "grid__bottom"}>
+          <li className="grid__text" onClick={() => onChangeId(parent.id)}>
+            {parent.full}
           </li>
-        ))}
-      </ul>
+          {childs.map((item) => (
+            <li
+              key={item.id}
+              onClick={() => onChangeId(item.id)}
+              className="grid__text"
+            >
+              {item.full}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

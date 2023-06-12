@@ -21,8 +21,6 @@ function App() {
       .then((res) => {
         setCompanies(res[0]);
         setOwnerships(res[1]);
-        // console.log(res[0]);
-        // console.log(res[1]);
       })
       .catch((err) => {
         console.log(err);
@@ -35,10 +33,6 @@ function App() {
       });
   }, []);
 
-  useEffect(() => {
-    console.log(companies);
-  }, [companies]);
-
   const handleCardDelete = (card) => {
     const id = card.company_id;
     const newCompanies = companies.filter((card) => card.company_id !== id);
@@ -47,7 +41,9 @@ function App() {
   };
 
   const handleCardChange = (card) => {
-    console.log(card);
+    console.log(companies.indexOf(card[1]));
+    const index = companies.indexOf(card[1]);
+    companies[index] = card[0];
     setIsEditPopupOpen(false);
   };
 

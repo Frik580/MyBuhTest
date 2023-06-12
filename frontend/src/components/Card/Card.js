@@ -10,7 +10,7 @@ function Card({ company, ownerships, onCardDelete, onCardChange }) {
       (element) => element.id === company.ownership_id
     );
     setOwnershipsForm(ownership[0]);
-  }, []);
+  }, [company, ownerships]);
 
   return (
     <li className="card">
