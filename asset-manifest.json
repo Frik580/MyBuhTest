@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.94d2938d.css",
-    "main.js": "./static/js/main.7f853fa9.js",
+    "main.js": "./static/js/main.0c8a6084.js",
     "static/js/787.cda612ba.chunk.js": "./static/js/787.cda612ba.chunk.js",
     "static/media/OpenSans-SemiBold.woff": "./static/media/OpenSans-SemiBold.c7a3ffd87605fb2f5cab.woff",
     "static/media/OpenSans-Regular.woff": "./static/media/OpenSans-Regular.229564cad5daae8ae40b.woff",
@@ -12,11 +12,11 @@
     "static/media/ion_radio-button-on.svg": "./static/media/ion_radio-button-on.9df6b238975739200495.svg",
     "static/media/ion_radio-button-off.svg": "./static/media/ion_radio-button-off.2c7e5b4aae3a53423146.svg",
     "main.94d2938d.css.map": "./static/css/main.94d2938d.css.map",
-    "main.7f853fa9.js.map": "./static/js/main.7f853fa9.js.map",
+    "main.0c8a6084.js.map": "./static/js/main.0c8a6084.js.map",
     "787.cda612ba.chunk.js.map": "./static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.94d2938d.css",
-    "static/js/main.7f853fa9.js"
+    "static/js/main.0c8a6084.js"
   ]
 }
