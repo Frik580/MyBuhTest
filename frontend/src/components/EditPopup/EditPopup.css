@@ -12,6 +12,7 @@
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.5s;
+  backdrop-filter: blur(2px);
 }
 
 .editpopup_opened {
