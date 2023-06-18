@@ -1,0 +1,21 @@
+.button {
+    min-height: 46px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    background: none;
+    outline: none;
+    background-color: #F2F2F2;
+    border-radius: 5px;
+    color: #262626;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+  }
+
+  .button_active {
+    background-color: #005DA1;
+    color: #fff;
+    }

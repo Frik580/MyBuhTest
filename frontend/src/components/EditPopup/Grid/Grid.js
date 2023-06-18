@@ -33,6 +33,7 @@ function Grid({ id, ownerships, onChangeId }) {
       <div
         className="grid"
         style={{
+          // плавное открытие списка форм собственности
           gridTemplateRows: isGridOpen && `auto 160px`,
         }}
       >

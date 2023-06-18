@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./EditPopup.css";
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
+import ButtonForm from "./ButtonForm/ButtonForm";
 import Grid from "./Grid/Grid";
 
 function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
@@ -24,7 +25,6 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
     );
     ownership && setOwnershipsForm(ownership[0]);
     ownership[0] && setOwnershipId(ownership[0].id);
-    // ownership[0] && console.log(ownership[0].id);
   }, [card, ownerships, isOpen]);
 
   useEffect(() => {
@@ -63,11 +63,15 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onChangeCard([{
-      company_name: state.name,
-      company_tin: state.tin,
-      ownership_id: ownershipId,
-    }, card]);
+    onChangeCard([
+      {
+        company_id: card.company_id,
+        company_name: state.name,
+        company_tin: state.tin,
+        ownership_id: ownershipId,
+      },
+      card,
+    ]);
   };
 
   // отрисовка чекбоксов
@@ -93,7 +97,6 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
 
   useEffect(() => {
     ownershipsForm && renderSelect();
-    // console.log(ownershipId);
   }, [isOpen, ownershipId, ownershipsForm]);
 
   return (
@@ -114,27 +117,21 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
         />
         <h3 className="editpopup__title">Редактировать данные организации</h3>
         <div className="button-conteiner">
-          <button
-            onClick={() => setOwnershipId(1)}
-            className={`button hover-button ${too && "button_active"}`}
-            type="button"
-          >
-            ТОО
-          </button>
-          <button
-            onClick={() => setOwnershipId(14)}
-            className={`button hover-button ${ip && "button_active"}`}
-            type="button"
-          >
-            ИП
-          </button>
-          <button
-            onClick={() => setOwnershipId(false)}
-            className={`button hover-button ${other && "button_active"}`}
-            type="button"
-          >
-            Прочие
-          </button>
+          <ButtonForm
+            isActive={too}
+            onChange={() => setOwnershipId(1)}
+            text="ТОО"
+          />
+          <ButtonForm
+            isActive={ip}
+            onChange={() => setOwnershipId(14)}
+            text="ИП"
+          />
+          <ButtonForm
+            isActive={other}
+            onChange={() => setOwnershipId(false)}
+            text="Прочие"
+          />
         </div>
 
         {other && (
@@ -155,20 +152,16 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
               text="Физические лица"
             />
 
-            {ownershipId && (
+            {ownershipId && ownershipId !== 20 && (
               <>
-                {ownershipId !== 20 && (
-                  <>
-                    <p className="popup-form__label">
-                      Выберите форму собственности
-                    </p>
-                    <Grid
-                      id={ownershipId}
-                      ownerships={ownerships}
-                      onChangeId={(data) => setOwnershipId(data)}
-                    />
-                  </>
-                )}
+                <p className="popup-form__label">
+                  Выберите форму собственности
+                </p>
+                <Grid
+                  id={ownershipId}
+                  ownerships={ownerships}
+                  onChangeId={(data) => setOwnershipId(data)}
+                />
               </>
             )}
           </>
