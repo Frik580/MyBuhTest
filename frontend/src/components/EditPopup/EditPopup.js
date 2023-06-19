@@ -23,9 +23,15 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
     const ownership = ownerships.filter(
       (element) => element.id === card.ownership_id
     );
-    ownership && setOwnershipsForm(ownership[0]);
     ownership[0] && setOwnershipId(ownership[0].id);
   }, [card, ownerships, isOpen]);
+
+  useEffect(() => {
+    const ownership = ownerships.filter(
+      (element) => element.id === ownershipId
+    );
+    ownership && setOwnershipsForm(ownership[0]);
+  }, [ownerships, ownershipId]);
 
   useEffect(() => {
     setState({
@@ -69,6 +75,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
         company_name: state.name,
         company_tin: state.tin,
         ownership_id: ownershipId,
+        logo: card.logo,
       },
       card,
     ]);
