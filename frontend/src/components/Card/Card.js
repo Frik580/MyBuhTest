@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./Card.css";
 import logo from "../../images/logo.svg";
+import useFilterById from "../../hooks/UseFilterById";
 
 function Card({ company, ownerships, onCardDelete, onCardChange }) {
   const [ownershipsForm, setOwnershipsForm] = useState({});
+  const filterOwnershipsForm = useFilterById(ownerships, company.ownership_id);
 
   useEffect(() => {
-    const ownership = ownerships.filter(
-      (element) => element.id === company.ownership_id
-    );
-    setOwnershipsForm(ownership[0]);
+    setOwnershipsForm(filterOwnershipsForm);
   }, [company, ownerships]);
 
   return (

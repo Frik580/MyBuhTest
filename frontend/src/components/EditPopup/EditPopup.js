@@ -3,6 +3,7 @@ import "./EditPopup.css";
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 import ButtonForm from "./ButtonForm/ButtonForm";
 import Grid from "./Grid/Grid";
+import useFilterById from "../../hooks/UseFilterById";
 
 function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
   const [state, setState] = useState("");
@@ -18,19 +19,15 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
   const [fiz, setFiz] = useState(false);
 
   const inputRef = useRef();
+  const filterOwnershipId = useFilterById(ownerships, card.ownership_id);
+  const filterOwnershipsForm = useFilterById(ownerships, ownershipId);
 
   useEffect(() => {
-    const ownership = ownerships.filter(
-      (element) => element.id === card.ownership_id
-    );
-    ownership[0] && setOwnershipId(ownership[0].id);
-  }, [card, ownerships, isOpen]);
+    setOwnershipId(filterOwnershipId?.id);
+  }, [isOpen, card, ownerships]);
 
   useEffect(() => {
-    const ownership = ownerships.filter(
-      (element) => element.id === ownershipId
-    );
-    ownership && setOwnershipsForm(ownership[0]);
+    setOwnershipsForm(filterOwnershipsForm);
   }, [ownerships, ownershipId]);
 
   useEffect(() => {
