@@ -1,17 +1,8 @@
-import React, { useEffect, useState } from "react";
 import "./SubmitPopup.css";
+import useCloseByEsc from "../../hooks/UseCloseByEsc";
 
 function SubmitPopup({ card, isOpen, onClose, onDeleteCard }) {
-  
-  useEffect(() => {
-    const handleEscClose = (e) => {
-      e.key === "Escape" && onClose();
-    };
-    document.addEventListener("keyup", handleEscClose);
-    return () => {
-      document.removeEventListener("keyup", handleEscClose);
-    };
-  }, [onClose]);
+  useCloseByEsc(onClose);
 
   return (
     <div

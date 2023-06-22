@@ -1,30 +1,30 @@
 import "./Grid.css";
 import React, { useState, useEffect } from "react";
+import useFilterById from "../../../hooks/UseFilterById";
 
 function Grid({ id, ownerships, onChangeId }) {
   const [childs, setChilds] = useState([]);
-  const [child, setChild] = useState({});
   const [parent, setParent] = useState({});
+  const [card, setCard] = useState({});
   const [isGridOpen, setIsGridOpen] = useState(false);
 
-  useEffect(() => {
-    if (id) {
-      const data = ownerships.filter((element) => element.parent_id === id);
-      setChilds(data);
-    }
-  }, [id, ownerships]);
+  const filterCard = useFilterById(ownerships, id);
+  const filterParent = useFilterById(ownerships, filterCard.parent_id);
 
   useEffect(() => {
-    if (id) {
-      const card = ownerships.filter((element) => element.id === id);
-      setChild(card[0]);
-      card[0].parent_id
-        ? setChilds(
-            ownerships.filter(
-              (element) => element.parent_id === card[0].parent_id
-            )
-          )
-        : setParent(card[0]);
+    setCard(filterCard);
+    if (filterCard.parent_id) {
+      setChilds(
+        ownerships.filter(
+          (element) => element.parent_id === filterCard.parent_id
+        )
+      );
+      setParent(filterParent);
+    } else {
+      setChilds(
+        ownerships.filter((element) => element.parent_id === filterCard.id)
+      );
+      setParent(filterCard);
     }
   }, [id, ownerships]);
 
@@ -38,7 +38,7 @@ function Grid({ id, ownerships, onChangeId }) {
         }}
       >
         <div className="grid__top">
-          <p className="grid__title">{child.full}</p>
+          <p className="grid__title">{card.full}</p>
           <div className="grid__navigation">
             <button
               onClick={() => setIsGridOpen(!isGridOpen)}

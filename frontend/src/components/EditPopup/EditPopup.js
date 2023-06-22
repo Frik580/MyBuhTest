@@ -4,6 +4,7 @@ import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 import ButtonForm from "./ButtonForm/ButtonForm";
 import Grid from "./Grid/Grid";
 import useFilterById from "../../hooks/UseFilterById";
+import useCloseByEsc from "../../hooks/UseCloseByEsc";
 
 function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
   const [state, setState] = useState("");
@@ -21,14 +22,15 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
   const inputRef = useRef();
   const filterOwnershipId = useFilterById(ownerships, card.ownership_id);
   const filterOwnershipsForm = useFilterById(ownerships, ownershipId);
+  useCloseByEsc(onClose);
 
   useEffect(() => {
     setOwnershipId(filterOwnershipId?.id);
-  }, [isOpen, card, ownerships]);
+  }, [isOpen, card, ownerships, filterOwnershipId?.id]);
 
   useEffect(() => {
     setOwnershipsForm(filterOwnershipsForm);
-  }, [ownerships, ownershipId]);
+  }, [ownerships, ownershipId, filterOwnershipsForm]);
 
   useEffect(() => {
     setState({
@@ -48,17 +50,6 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
       ? setIsValid(false)
       : setIsValid(true);
   }, [isOpen, card, state, ownershipId]);
-
-  // Слушатель Esc на закрытие попапа
-  useEffect(() => {
-    const handleEscClose = (e) => {
-      e.key === "Escape" && onClose();
-    };
-    document.addEventListener("keyup", handleEscClose);
-    return () => {
-      document.removeEventListener("keyup", handleEscClose);
-    };
-  }, [onClose]);
 
   const handleInputChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -88,20 +79,17 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
     setFiz(false);
   };
 
-  const renderSelect = () => {
-    cleanoff();
-    ownershipId === 1 && setToo(true);
-    ownershipId === 14 && setIp(true);
-    ((ownershipId >= 2 && ownershipId <= 13) || ownershipId === 21) &&
-      setJur(true);
-    ownershipId >= 15 && ownershipId <= 19 && setChp(true);
-    ownershipId === 20 && setFiz(true);
-    ownershipId !== 1 && ownershipId !== 14 && setOther(true);
-  };
-
   useEffect(() => {
-    ownershipsForm && renderSelect();
-  }, [isOpen, ownershipId, ownershipsForm]);
+      cleanoff();
+      ownershipId === 1 && setToo(true);
+      ownershipId === 14 && setIp(true);
+      ((ownershipId >= 2 && ownershipId <= 13) || ownershipId === 21) &&
+        setJur(true);
+      ownershipId >= 15 && ownershipId <= 19 && setChp(true);
+      ownershipId === 20 && setFiz(true);
+      ownershipId !== 1 && ownershipId !== 14 && setOther(true);
+    // }
+  }, [isOpen, ownershipId]);
 
   return (
     <div
@@ -156,7 +144,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
               text="Физические лица"
             />
 
-            {ownershipId && ownershipId !== 20 && (
+            {isOpen && ownershipId && ownershipId !== 20 && (
               <>
                 <p className="popup-form__label">
                   Выберите форму собственности
@@ -200,7 +188,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
           </label>
           <fieldset className="popup-form__conteiner">
             <p className="popup-form__text">
-              {ownershipsForm && ownershipsForm.short}
+              {!!ownershipsForm && ownershipsForm.short}
             </p>
             <input
               type="text"
