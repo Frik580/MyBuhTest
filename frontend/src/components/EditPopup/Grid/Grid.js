@@ -26,7 +26,7 @@ function Grid({ id, ownerships, onChangeId }) {
       );
       setParent(filterCard);
     }
-  }, [id, ownerships]);
+  }, [filterCard, filterParent, id, ownerships]);
 
   return (
     <div className="grid-conteiner">
@@ -50,7 +50,11 @@ function Grid({ id, ownerships, onChangeId }) {
           </div>
         </div>
         <ul className={isGridOpen ? "grid__bottom_active" : "grid__bottom"}>
-          <li className="grid__text" onClick={() => onChangeId(parent.id)}>
+          <li
+            key={parent.id}
+            className="grid__text"
+            onClick={() => onChangeId(parent.id)}
+          >
             {parent.full}
           </li>
           {childs.map((item) => (
