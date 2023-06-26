@@ -7,4 +7,3 @@ export default function useCloseByEsc(func) {
         document.removeEventListener("keyup", handleEscClose);
       };
   }
-  

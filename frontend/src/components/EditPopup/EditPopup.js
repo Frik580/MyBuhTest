@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./EditPopup.css";
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 import ButtonForm from "./ButtonForm/ButtonForm";
@@ -19,10 +19,17 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
   const [chp, setChp] = useState(false);
   const [fiz, setFiz] = useState(false);
 
-  const inputRef = useRef();
   const filterOwnershipId = useFilterById(ownerships, card.ownership_id);
   const filterOwnershipsForm = useFilterById(ownerships, ownershipId);
+
   useCloseByEsc(onClose);
+
+  const setFocus = useCallback(
+    (element) => {
+      element?.focus();
+    },
+    [isOpen]
+  );
 
   useEffect(() => {
     setOwnershipId(filterOwnershipId?.id);
@@ -38,7 +45,6 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
       tin: card.company_tin,
       id: card.ownership_id,
     });
-    inputRef.current.focus();
   }, [card, isOpen]);
 
   // Проверка валидности (isValid)
@@ -70,26 +76,25 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
   };
 
   // отрисовка чекбоксов
-  const cleanoff = () => {
+  const cleanoff = useCallback(() => {
     setToo(false);
     setIp(false);
     setOther(false);
     setJur(false);
     setChp(false);
     setFiz(false);
-  };
+  }, []);
 
   useEffect(() => {
-      cleanoff();
-      ownershipId === 1 && setToo(true);
-      ownershipId === 14 && setIp(true);
-      ((ownershipId >= 2 && ownershipId <= 13) || ownershipId === 21) &&
-        setJur(true);
-      ownershipId >= 15 && ownershipId <= 19 && setChp(true);
-      ownershipId === 20 && setFiz(true);
-      ownershipId !== 1 && ownershipId !== 14 && setOther(true);
-    // }
-  }, [isOpen, ownershipId]);
+    cleanoff();
+    ownershipId === 1 && setToo(true);
+    ownershipId === 14 && setIp(true);
+    ((ownershipId >= 2 && ownershipId <= 13) || ownershipId === 21) &&
+      setJur(true);
+    ownershipId >= 15 && ownershipId <= 19 && setChp(true);
+    ownershipId === 20 && setFiz(true);
+    ownershipId !== 1 && ownershipId !== 14 && setOther(true);
+  }, [cleanoff, isOpen, ownershipId]);
 
   return (
     <div
@@ -171,6 +176,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
           <fieldset className="popup-form__conteiner">
             <input
               type="text"
+              ref={setFocus}
               value={state.tin || ""}
               onChange={handleInputChange}
               id="tin-id"
@@ -192,7 +198,6 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
             </p>
             <input
               type="text"
-              ref={inputRef}
               value={state.name || ""}
               onChange={handleInputChange}
               id="name-id"

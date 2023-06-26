@@ -6,8 +6,8 @@ function Main({
   companies,
   ownerships,
   isPreloader,
-  onCardDelete,
-  onCardChange,
+  onDeleteCard,
+  onChangeCard,
 }) {
   return (
     <section className="main">
@@ -16,8 +16,8 @@ function Main({
       <CardsList
         companies={companies}
         ownerships={ownerships}
-        onCardDelete={onCardDelete}
-        onCardChange={onCardChange}
+        onDeleteCard={onDeleteCard}
+        onChangeCard={onChangeCard}
       />
     </section>
   );

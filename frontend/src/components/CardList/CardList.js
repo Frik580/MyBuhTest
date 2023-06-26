@@ -1,7 +1,7 @@
 import "./CardList.css";
 import Card from "../Card/Card";
 
-function CardList({ companies, ownerships, onCardDelete, onCardChange }) {
+function CardList({ companies, ownerships, onDeleteCard, onChangeCard }) {
   return (
     <ul className="cardlist">
       {companies.map((company) => (
@@ -9,8 +9,8 @@ function CardList({ companies, ownerships, onCardDelete, onCardChange }) {
           key={company.company_id}
           company={company}
           ownerships={ownerships}
-          onCardDelete={onCardDelete}
-          onCardChange={onCardChange}
+          onDeleteCard={onDeleteCard}
+          onChangeCard={onChangeCard}
         />
       ))}
     </ul>

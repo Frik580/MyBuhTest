@@ -1,18 +1,12 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import Main from "./Main/Main";
-import EditPopup from "./EditPopup/EditPopup";
-import SubmitPopup from "./SubmitPopup/SubmitPopup";
 import { getCompanies, getOwnerships } from "../utils/DataApi";
 
 function App() {
   const [companies, setCompanies] = useState([]);
   const [ownerships, setOwnerships] = useState([]);
   const [isPreloader, setIsPreloader] = useState(false);
-  const [isSubmitPopupOpen, setIsSubmitPopupOpen] = useState(false);
-  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
-  const [deletedCard, setDeletedCard] = useState({});
-  const [changedCard, setChangedCard] = useState({});
 
   useEffect(() => {
     setIsPreloader(true);
@@ -37,14 +31,13 @@ function App() {
     const id = card.company_id;
     const newCompanies = companies.filter((card) => card.company_id !== id);
     setCompanies(newCompanies);
-    setIsSubmitPopupOpen(false);
   };
 
-  const handleCardChange = (card) => {
-    const index = companies.indexOf(card[1]);
-    companies[index] = card[0];
+  const handleCardChange = (data) => {
+    const index = companies.indexOf(data[1]);
+    companies[index] = data[0];
     console.log(companies);
-    setIsEditPopupOpen(false);
+    setCompanies(companies.slice());
   };
 
   return (
@@ -53,28 +46,12 @@ function App() {
         companies={companies}
         ownerships={ownerships}
         isPreloader={isPreloader}
-        onCardDelete={(data) => {
-          setDeletedCard(data);
-          setIsSubmitPopupOpen(true);
-        }}
-        onCardChange={(data) => {
-          setChangedCard(data);
-          setIsEditPopupOpen(true);
-        }}
-      />
-      <EditPopup
-        card={changedCard}
-        ownerships={ownerships}
-        isOpen={isEditPopupOpen}
-        onClose={() => setIsEditPopupOpen(false)}
+        onDeleteCard={handleCardDelete}
         onChangeCard={handleCardChange}
       />
-      <SubmitPopup
-        card={deletedCard}
-        isOpen={isSubmitPopupOpen}
-        onClose={() => setIsSubmitPopupOpen(false)}
-        onDeleteCard={handleCardDelete}
-      />
+
+      {/* Portals */}
+      <div id="popup" />
     </div>
   );
 }
