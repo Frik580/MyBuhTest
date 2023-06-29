@@ -47,7 +47,9 @@ function Card({ company, ownerships, onDeleteCard, onChangeCard }) {
         onClick={() => setIsEditPopupOpen((isOpen) => !isOpen)}
         className={"card__button card__button_type_edit hover-button"}
         type="button"
-      />
+      >
+        <span className="visually-hidden">{`Кнопка редактирования ${company.company_id}`}</span>
+      </button>
 
       {createPortal(
         <SubmitPopup
@@ -65,7 +67,9 @@ function Card({ company, ownerships, onDeleteCard, onChangeCard }) {
         onClick={() => setIsSubmitPopupOpen((isOpen) => !isOpen)}
         className={"card__button card__button_type_delete hover-button"}
         type="button"
-      />
+      >
+        <span className="visually-hidden">{`Кнопка удаления ${company.company_id}`}</span>
+      </button>
     </li>
   );
 }

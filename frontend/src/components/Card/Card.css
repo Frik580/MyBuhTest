@@ -33,16 +33,18 @@
 }
 
 .card__button {
-    background: none;
-    border: none;
-    outline: none;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 24px;
-    width: 24px;
-    background-color: #f9f9f9;
-    cursor: pointer;
-  }
+  position: relative;
+  background: none;
+  border: none;
+  outline: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 24px;
+  width: 24px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  /* overflow: hidden; */
+}
 
 .card__button_type_edit {
   background-image: url(../../images/edit.svg);
@@ -50,6 +52,17 @@
 }
 
 .card__button_type_delete {
-    background-image: url(../../images/delete.svg);
-    margin-left: 21px;
-  }
+  background-image: url(../../images/delete.svg);
+  margin-left: 21px;
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  user-select: none;
+  white-space: nowrap;
+}
