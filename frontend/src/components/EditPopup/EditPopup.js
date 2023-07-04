@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useReducer } from "react";
 import "./EditPopup.css";
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 import ButtonForm from "./ButtonForm/ButtonForm";
@@ -7,22 +7,70 @@ import useFilterById from "../../hooks/UseFilterById";
 import useCloseByEsc from "../../hooks/UseCloseByEsc";
 
 function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
-  const [state, setState] = useState("");
+  const [states, setStates] = useState("");
   const [ownershipsForm, setOwnershipsForm] = useState({});
   const [ownershipId, setOwnershipId] = useState(false);
   const [isValid, setIsValid] = useState(false);
-
-  const [too, setToo] = useState(false);
-  const [ip, setIp] = useState(false);
-  const [other, setOther] = useState(false);
-  const [jur, setJur] = useState(false);
-  const [chp, setChp] = useState(false);
-  const [fiz, setFiz] = useState(false);
 
   const filterOwnershipId = useFilterById(ownerships, card.ownership_id);
   const filterOwnershipsForm = useFilterById(ownerships, ownershipId);
 
   useCloseByEsc(onClose);
+
+  const reducer = (state, action) => {
+    switch (action?.type) {
+      case "setToo": {
+        return {
+          too: true,
+        };
+      }
+
+      case "setIp": {
+        return {
+          ip: true,
+        };
+      }
+
+      case "setOther": {
+        return {
+          other: true,
+        };
+      }
+
+      case "setJur": {
+        return {
+          other: true,
+          jur: true,
+        };
+      }
+
+      case "setChp": {
+        return {
+          other: true,
+          chp: true,
+        };
+      }
+
+      case "setFiz": {
+        return {
+          other: true,
+          fiz: true,
+        };
+      }
+
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = useReducer(reducer, {
+    too: false,
+    ip: false,
+    other: false,
+    jur: false,
+    chp: false,
+    fiz: false,
+  });
 
   const setFocus = useCallback(
     (element) => {
@@ -40,7 +88,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
   }, [ownerships, ownershipId, filterOwnershipsForm]);
 
   useEffect(() => {
-    setState({
+    setStates({
       name: card.company_name,
       tin: card.company_tin,
       id: card.ownership_id,
@@ -49,16 +97,16 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
 
   // Проверка валидности (isValid)
   useEffect(() => {
-    (card.company_name === state.name &&
-      card.company_tin === state.tin &&
+    (card.company_name === states.name &&
+      card.company_tin === states.tin &&
       card.ownership_id === ownershipId) ||
     !ownershipId
       ? setIsValid(false)
       : setIsValid(true);
-  }, [isOpen, card, state, ownershipId]);
+  }, [isOpen, card, states, ownershipId]);
 
   const handleInputChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
+    setStates({ ...states, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -66,8 +114,8 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
     onChangeCard([
       {
         company_id: card.company_id,
-        company_name: state.name,
-        company_tin: state.tin,
+        company_name: states.name,
+        company_tin: states.tin,
         ownership_id: ownershipId,
         logo: card.logo,
       },
@@ -75,26 +123,15 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
     ]);
   };
 
-  // отрисовка чекбоксов
-  const cleanoff = useCallback(() => {
-    setToo(false);
-    setIp(false);
-    setOther(false);
-    setJur(false);
-    setChp(false);
-    setFiz(false);
-  }, []);
-
   useEffect(() => {
-    cleanoff();
-    ownershipId === 1 && setToo(true);
-    ownershipId === 14 && setIp(true);
+    ownershipId !== 1 && ownershipId !== 14 && dispatch({ type: "setOther" });
+    ownershipId === 1 && dispatch({ type: "setToo" });
+    ownershipId === 14 && dispatch({ type: "setIp" });
     ((ownershipId >= 2 && ownershipId <= 13) || ownershipId === 21) &&
-      setJur(true);
-    ownershipId >= 15 && ownershipId <= 19 && setChp(true);
-    ownershipId === 20 && setFiz(true);
-    ownershipId !== 1 && ownershipId !== 14 && setOther(true);
-  }, [cleanoff, isOpen, ownershipId]);
+      dispatch({ type: "setJur" });
+    ownershipId >= 15 && ownershipId <= 19 && dispatch({ type: "setChp" });
+    ownershipId === 20 && dispatch({ type: "setFiz" });
+  }, [isOpen, ownershipId]);
 
   return (
     <div
@@ -115,36 +152,36 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
         <h3 className="editpopup__title">Редактировать данные организации</h3>
         <div className="button-conteiner">
           <ButtonForm
-            isActive={too}
+            isActive={state.too}
             onChange={() => setOwnershipId(1)}
             text="ТОО"
           />
           <ButtonForm
-            isActive={ip}
+            isActive={state.ip}
             onChange={() => setOwnershipId(14)}
             text="ИП"
           />
           <ButtonForm
-            isActive={other}
+            isActive={state.other}
             onChange={() => setOwnershipId(false)}
             text="Прочие"
           />
         </div>
 
-        {other && (
+        {!!state.other && (
           <>
             <FilterCheckbox
-              isActive={jur}
+              isActive={state.jur}
               onChange={() => setOwnershipId(2)}
               text="Юридические лица"
             />
             <FilterCheckbox
-              isActive={chp}
+              isActive={state.chp}
               onChange={() => setOwnershipId(15)}
               text="Частная практика"
             />
             <FilterCheckbox
-              isActive={fiz}
+              isActive={state.fiz}
               onChange={() => setOwnershipId(20)}
               text="Физические лица"
             />
@@ -177,7 +214,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
             <input
               type="text"
               ref={setFocus}
-              value={state.tin || ""}
+              value={states.tin || ""}
               onChange={handleInputChange}
               id="tin-id"
               name="tin"
@@ -198,7 +235,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
             </p>
             <input
               type="text"
-              value={state.name || ""}
+              value={states.name || ""}
               onChange={handleInputChange}
               id="name-id"
               name="name"
