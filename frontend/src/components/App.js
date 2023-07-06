@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Main from "./Main/Main";
 import { getCompanies, getOwnerships } from "../utils/DataApi";
+import { OwnershipsContext } from "../contexts/OwnershipsContext";
 
 function App() {
   const [companies, setCompanies] = useState([]);
@@ -41,18 +42,19 @@ function App() {
   };
 
   return (
-    <div className="root">
-      <Main
-        companies={companies}
-        ownerships={ownerships}
-        isPreloader={isPreloader}
-        onDeleteCard={handleCardDelete}
-        onChangeCard={handleCardChange}
-      />
+    <OwnershipsContext.Provider value={ownerships}>
+      <div className="root">
+        <Main
+          companies={companies}
+          isPreloader={isPreloader}
+          onDeleteCard={handleCardDelete}
+          onChangeCard={handleCardChange}
+        />
 
-      {/* Portals */}
-      <div id="popup" />
-    </div>
+        {/* Portals */}
+        <div id="popup" />
+      </div>
+    </OwnershipsContext.Provider>
   );
 }
 

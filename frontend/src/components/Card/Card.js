@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { createPortal } from "react-dom";
 import "./Card.css";
 import logo from "../../images/logo.svg";
 import useFilterById from "../../hooks/UseFilterById";
 import SubmitPopup from "../SubmitPopup/SubmitPopup";
 import EditPopup from "../EditPopup/EditPopup";
+import { OwnershipsContext } from "../../contexts/OwnershipsContext";
 
-function Card({ company, ownerships, onDeleteCard, onChangeCard }) {
+function Card({ company, onDeleteCard, onChangeCard }) {
+  const ownerships = useContext(OwnershipsContext);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [ownershipsForm, setOwnershipsForm] = useState({});

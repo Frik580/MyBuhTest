@@ -5,6 +5,7 @@ import ButtonForm from "./ButtonForm/ButtonForm";
 import Grid from "./Grid/Grid";
 import useFilterById from "../../hooks/UseFilterById";
 import useCloseByEsc from "../../hooks/UseCloseByEsc";
+import { checkboxReducer } from "../../utils/checkboxReducer";
 
 function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
   const [states, setStates] = useState("");
@@ -17,53 +18,7 @@ function EditPopup({ card, ownerships, isOpen, onClose, onChangeCard }) {
 
   useCloseByEsc(onClose);
 
-  const reducer = (state, action) => {
-    switch (action?.type) {
-      case "setToo": {
-        return {
-          too: true,
-        };
-      }
-
-      case "setIp": {
-        return {
-          ip: true,
-        };
-      }
-
-      case "setOther": {
-        return {
-          other: true,
-        };
-      }
-
-      case "setJur": {
-        return {
-          other: true,
-          jur: true,
-        };
-      }
-
-      case "setChp": {
-        return {
-          other: true,
-          chp: true,
-        };
-      }
-
-      case "setFiz": {
-        return {
-          other: true,
-          fiz: true,
-        };
-      }
-
-      default:
-        return state;
-    }
-  };
-
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, dispatch] = useReducer(checkboxReducer, {
     too: false,
     ip: false,
     other: false,
